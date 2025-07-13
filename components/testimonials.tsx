@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Star, ChevronLeft, ChevronRight } from "lucide-react"
 
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card"
@@ -40,13 +40,65 @@ export function Testimonials({ t }: TestimonialsProps) {
   ]
 
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isVisible, setIsVisible] = useState(true) // Estado para la animación de desvanecimiento
+  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null) // Ref para el intervalo de auto-play
 
+  // Función para iniciar el auto-play
+  const startAutoplay = () => {
+    if (autoplayIntervalRef.current) clearInterval(autoplayIntervalRef.current) // Limpia cualquier intervalo existente
+    autoplayIntervalRef.current = setInterval(() => {
+      setIsVisible(false) // Inicia el desvanecimiento (fade out)
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex === testimonialsData.length - 1 ? 0 : prevIndex + 1))
+        setIsVisible(true) // Inicia el desvanecimiento (fade in)
+      }, 300) // Este tiempo debe coincidir con la duración de la transición CSS
+    }, 5000) // Cambia el testimonio cada 5 segundos (5000 ms)
+  }
+
+  // Función para detener el auto-play
+  const stopAutoplay = () => {
+    if (autoplayIntervalRef.current) {
+      clearInterval(autoplayIntervalRef.current)
+      autoplayIntervalRef.current = null
+    }
+  }
+
+  // useEffect para iniciar y limpiar el auto-play
+  useEffect(() => {
+    startAutoplay() // Inicia el auto-play al montar el componente
+    return () => stopAutoplay() // Limpia el intervalo al desmontar el componente
+  }, [testimonialsData.length]) // Se ejecuta cuando cambia la longitud de los testimonios
+
+  // Modifica las funciones goToPrevious y goToNext para manejar la animación y el auto-play
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonialsData.length - 1 : prevIndex - 1))
+    stopAutoplay() // Detiene el auto-play en interacción manual
+    setIsVisible(false)
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonialsData.length - 1 : prevIndex - 1))
+      setIsVisible(true)
+      startAutoplay() // Reinicia el auto-play después de la interacción manual
+    }, 300)
   }
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === testimonialsData.length - 1 ? 0 : prevIndex + 1))
+    stopAutoplay() // Detiene el auto-play en interacción manual
+    setIsVisible(false)
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex === testimonialsData.length - 1 ? 0 : prevIndex + 1))
+      setIsVisible(true)
+      startAutoplay() // Reinicia el auto-play después de la interacción manual
+    }, 300)
+  }
+
+  // Función para manejar el clic en los puntos de navegación
+  const handleDotClick = (index: number) => {
+    stopAutoplay() // Detiene el auto-play en interacción manual
+    setIsVisible(false)
+    setTimeout(() => {
+      setCurrentIndex(index)
+      setIsVisible(true)
+      startAutoplay() // Reinicia el auto-play después de la interacción manual
+    }, 300)
   }
 
   const currentTestimonial = testimonialsData[currentIndex]
@@ -62,7 +114,11 @@ export function Testimonials({ t }: TestimonialsProps) {
             </p>
           </div>
         </div>
-        <div className="mx-auto max-w-2xl py-12 relative">
+        <div
+          className="mx-auto max-w-2xl py-12 relative"
+          onMouseEnter={stopAutoplay} // Pausa al pasar el ratón
+          onMouseLeave={startAutoplay} // Reanuda al quitar el ratón
+        >
           <div className="flex items-center justify-center">
             <Button
               variant="ghost"
@@ -73,14 +129,18 @@ export function Testimonials({ t }: TestimonialsProps) {
               <ChevronLeft className="h-6 w-6" />
               <span className="sr-only">Previous testimonial</span>
             </Button>
-            <TestimonialCard
-              name={currentTestimonial.name}
-              role={currentTestimonial.role}
-              company={currentTestimonial.company}
-              content={currentTestimonial.content}
-              rating={currentTestimonial.rating}
-              numericRating={currentTestimonial.numericRating}
-            />
+            {/* Aplica las clases de transición y opacidad aquí */}
+            <div className={`transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+              <TestimonialCard
+                key={currentIndex} // ¡Importante! Esto fuerza a React a re-renderizar el componente y aplicar la transición
+                name={currentTestimonial.name}
+                role={currentTestimonial.role}
+                company={currentTestimonial.company}
+                content={currentTestimonial.content}
+                rating={currentTestimonial.rating}
+                numericRating={currentTestimonial.numericRating}
+              />
+            </div>
             <Button
               variant="ghost"
               size="icon"
@@ -96,7 +156,7 @@ export function Testimonials({ t }: TestimonialsProps) {
               <button
                 key={index}
                 className={`h-2 w-2 rounded-full ${index === currentIndex ? "bg-[#0052D4]" : "bg-gray-300"}`}
-                onClick={() => setCurrentIndex(index)}
+                onClick={() => handleDotClick(index)} // Usa la nueva función para el clic en los puntos
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
