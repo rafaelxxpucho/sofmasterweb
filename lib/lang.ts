@@ -145,7 +145,7 @@ export const messages = {
         "La eficiencia de SofMaster es inigualable. Su soporte remoto nos salvó de varias caídas críticas, minimizando el tiempo de inactividad. Su equipo es proactivo y altamente capacitado.",
       testimonial1_name: "Carlos Rodríguez",
       testimonial1_role: "Gerente de Operaciones",
-      testimonial1_company: "Empresa ABC",
+      testimonial1_company: "Printon.inc",
       testimonial2_content:
         "Mi laptop estaba lentísima y llena de virus. SofMaster la dejó como nueva en cuestión de horas. El técnico fue súper amable y me explicó todo con paciencia. ¡Totalmente recomendado!",
       testimonial2_name: "María González",
@@ -155,7 +155,7 @@ export const messages = {
         "El plan de soporte por horas es perfecto para nuestra startup. Nos da la flexibilidad de tener expertos a demanda sin el costo de un empleado a tiempo completo. Su rapidez y conocimiento técnico son impresionantes.",
       testimonial3_name: "Juan Pérez",
       testimonial3_role: "Director de IT",
-      testimonial3_company: "Startup XYZ",
+      testimonial3_company: "Startup facility",
     },
     contact: {
       title: "Agenda tu Asesoría",
