@@ -163,7 +163,7 @@ export const messages = {
       response_title: "Respuesta Rápida",
       response_text: "Te contactaremos en menos de 2 horas para agendar tu asesoría o soporte técnico.",
       phone_title: "Línea Directa",
-      phone_number: "800-123-4567",
+      phone_number: "(678) 744-3233",
       email_title: "Correo Electrónico",
       email_address: "soporte@sofmaster.com",
       form_title: "Solicita una asesoría",
