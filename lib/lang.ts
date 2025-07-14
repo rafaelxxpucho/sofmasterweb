@@ -381,7 +381,7 @@ export const messages = {
       response_title: "Fast Response",
       response_text: "We will contact you in less than 2 hours to schedule your consultation or technical support.",
       phone_title: "Direct Line",
-      phone_number: "800-123-4567",
+      phone_number: "(678) 744-3233",
       email_title: "Email",
       email_address: "support@sofmaster.com",
       form_title: "Request a consultation",

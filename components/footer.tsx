@@ -81,7 +81,7 @@ export function Footer({ t }: FooterProps) {
           <ul className="space-y-2 text-sm text-gray-200">
             <li className="flex items-start gap-2">
               <Phone className="h-5 w-5 text-[#FFA500] shrink-0" />
-              <span>800-123-4567</span>
+              <span>(678) 744-3233</span>
             </li>
             <li className="flex items-start gap-2">
               <Mail className="h-5 w-5 text-[#FFA500] shrink-0" />
