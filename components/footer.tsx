@@ -23,7 +23,7 @@ export function Footer({ t }: FooterProps) {
           </Link>
           <p className="text-sm text-gray-200">{t.company_description}</p>
           <div className="flex space-x-4">
-            <Link href="#" className="text-gray-200 hover:text-[#FFA500]">
+             {/* <Link href="#" className="text-gray-200 hover:text-[#FFA500]">
               <Facebook className="h-5 w-5" />
               <span className="sr-only">Facebook</span>
             </Link>
@@ -38,7 +38,7 @@ export function Footer({ t }: FooterProps) {
             <Link href="#" className="text-gray-200 hover:text-[#FFA500]">
               <Linkedin className="h-5 w-5" />
               <span className="sr-only">LinkedIn</span>
-            </Link>
+            </Link>  */}
           </div>
         </div>
         <div className="space-y-4">
